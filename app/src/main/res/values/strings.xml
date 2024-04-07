@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">SAM App</string>
+    <string name="validation_fail_text">Input is invalid</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="name">Nickname</string>
+    <string name= "birthday">Birthday</string>
+    <string name="place_holder">SAMPLE</string>
+    <string name="description">Input Something</string>
+    <string name="birthday_place_holder">19940414</string>
+    <string name="birthday_description">Enter your date of birth in 6 digits</string>
+    <string name= "ok">OK</string>
+    <string name= "cancel">Cancel</string>
+    <string name="register">Register</string>
+
+    <string name="login_nav_tab">Login</string>
+    <string name="sam_nav_tab">SAM</string>
+    <string name="error_api_message">Api Error</string>
+
+</resources>
