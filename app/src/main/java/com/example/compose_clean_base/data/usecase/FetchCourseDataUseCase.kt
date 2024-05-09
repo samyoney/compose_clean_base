@@ -1,6 +1,5 @@
 package com.example.compose_clean_base.data.usecase
 
-import com.example.compose_clean_base.data.model.remote.response.BaseResponse
 import com.example.compose_clean_base.data.model.remote.response.CourseResponse
 import com.example.compose_clean_base.data.repository.CourseRepository
 import com.example.framework.network.ApiState
@@ -11,9 +10,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetCourseDataUseCase @Inject constructor(private val repository: CourseRepository) {
+class FetchCourseDataUseCase @Inject constructor(private val repository: CourseRepository) {
 
-    operator fun invoke(): Flow<ApiState<BaseResponse<CourseResponse>>> = flow {
+    operator fun invoke(): Flow<ApiState<CourseResponse>> = flow {
         val result = safeFetchApi { repository.getCoursesData() }
         emit(result)
     }.flowOn(Dispatchers.IO)

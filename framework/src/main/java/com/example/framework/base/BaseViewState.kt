@@ -1,12 +1,9 @@
 package com.example.framework.base
 
- interface BaseViewState<T> {
-     var commonState: CommonState<T>
- }
 
-sealed interface CommonState<out T> {
-    data object Idle : CommonState<Nothing>
-    data object Loading : CommonState<Nothing>
-    data class Success<T>(val data: T? = null) : CommonState<T>
-    data class Error(val mess: String = String()) : CommonState<Nothing>
+sealed interface CommonState {
+    data object Empty : CommonState
+    data object Idle : CommonState
+    data object Loading : CommonState
+    data class Error(val mess: String = String()) : CommonState
 }

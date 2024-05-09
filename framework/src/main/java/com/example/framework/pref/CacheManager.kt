@@ -9,16 +9,16 @@ import com.example.framework.extension.getDefaultSharedPrefName
 import com.example.framework.extension.getPrefs
 import com.example.framework.extension.toJson
 
-@Suppress("UNCHECKED_CAST")
 class CacheManager(
-    private val context: Context,
-    private var prefFileName: String? = null
+    val context: Context,
+    prefFileName: String? = null
 ) {
 
     private val prefs: SharedPreferences = context.getPrefs(
         prefFileName ?: context.getDefaultSharedPrefName()
     )
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> read(key: String, defaultValue: T): T {
         return when (defaultValue) {
             is String -> prefs.getString(key, defaultValue as String) as T ?: defaultValue
@@ -74,5 +74,9 @@ class CacheManager(
         } catch (ex: Exception) {
             null
         }
+    }
+
+    inline fun readFromAssets(uri: String): String {
+        return context.assets.open(uri).bufferedReader().use { it.readText() }
     }
 }

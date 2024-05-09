@@ -132,11 +132,11 @@ fun LoginScreen(
                 RegisterButton(viewModel)
             }
 
-            when(val apiState = uiState.commonState) {
+            when(val commonState = uiState.commonState) {
                 is CommonState.Loading -> FullScreenLoading()
-                is CommonState.Success -> navigator.openSam()
+                is CommonState.Idle -> navigator.openSam()
                 is CommonState.Error -> {
-                    ErrorDialog(content = apiState.mess) {
+                    ErrorDialog(content = commonState.mess) {
                         viewModel.onTriggerEvent(LoginEvent.IdleReturn)
                     }
                 }

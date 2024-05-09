@@ -12,8 +12,4 @@ class AppNetworkConfig : NetworkConfig() {
     override fun timeOut(): Long {
         return 30L
     }
-
-    override fun isDev(): Boolean {
-        return BuildConfig.DEBUG
-    }
 }

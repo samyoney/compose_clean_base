@@ -1,0 +1,52 @@
+{
+  "status": 200,
+  "message": "Success",
+  "courses": [
+    {
+      "id": "course_1",
+      "name": "Introduction to Programming",
+      "instructor": "John Doe",
+      "topics": [
+        "Variables",
+        "Control Flow",
+        "Functions",
+        "Arrays"
+      ],
+      "students": [
+        {
+          "id": "student_1",
+          "name": "Alice",
+          "birth": "1990-05-15"
+        },
+        {
+          "id": "student_2",
+          "name": "Bob",
+          "birth": "1992-08-21"
+        }
+      ]
+    },
+    {
+      "id": "course_2",
+      "name": "Data Structures and Algorithms",
+      "instructor": "Jane Smith",
+      "topics": [
+        "Arrays",
+        "Linked Lists",
+        "Stacks",
+        "Queues"
+      ],
+      "students": [
+        {
+          "id": "student_3",
+          "name": "Charlie",
+          "birth": "1988-12-03"
+        },
+        {
+          "id": "student_4",
+          "name": "Diana",
+          "birth": "1991-10-30"
+        }
+      ]
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.example.compose_clean_base.app.controller.SetupSystemUi
@@ -24,7 +25,7 @@ import com.ramcosta.composedestinations.navigation.dependency
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MainScreen(finish: () -> Unit) {
+fun MainScreen(viewModel: MainViewModel = hiltViewModel(),  finish: () -> Unit) {
     val navController = rememberNavController()
     val navGraph = NavGraphs.root
 
@@ -54,7 +55,7 @@ fun MainScreen(finish: () -> Unit) {
             DestinationsNavHost(
                 navController = navController,
                 navGraph = navGraph,
-                startRoute = LoginScreenDestination,
+                startRoute = viewModel.startRoute,
                 dependenciesContainerBuilder = {
                     dependency(navApp)
                 }

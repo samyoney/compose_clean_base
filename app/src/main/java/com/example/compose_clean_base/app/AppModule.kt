@@ -33,8 +33,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideTimberInitializer(
-        networkConfig: NetworkConfig
-    ) = TimberInitializer(networkConfig.isDev())
+        application: AppApplication
+    ) = TimberInitializer(application.isDev())
 
     @Provides
     @Singleton

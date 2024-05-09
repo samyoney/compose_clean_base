@@ -30,8 +30,9 @@ object DataModule {
     @Provides
     fun provideCourseRepository(
         service: CourseService,
-        courseDao: CourseDao
-    ) = CourseRepository(service, courseDao)
+        courseDao: CourseDao,
+        cacheManager: CacheManager
+        ) = CourseRepository(service, courseDao, cacheManager)
 
     @Provides
     fun provideFetchLoginUseCase(

@@ -1,6 +1,7 @@
 package com.example.compose_clean_base.data.remote
 
 import com.example.compose_clean_base.BuildConfig
+import com.example.compose_clean_base.app.AppApplication
 import com.example.compose_clean_base.data.remote.service.LoginService
 import com.example.compose_clean_base.data.remote.service.CourseService
 import com.example.compose_clean_base.data.remote.service.RegisterService
@@ -20,7 +21,7 @@ object RemoteModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
+    fun provideOkHttpClient(application: AppApplication) = if (application.isDev()) {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         OkHttpClient.Builder()

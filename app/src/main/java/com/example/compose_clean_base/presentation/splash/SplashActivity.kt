@@ -60,8 +60,8 @@ class SplashActivity : FragmentActivity() {
         setContent {
             AppTheme {
                 SetupSystemUi(rememberSystemUiController(), BaseColor)
-                SplashView(viewModel, onFinish = {
-                    navigateMainActivity()
+                SplashView(viewModel, onNavigateActivity = {
+                    onNavigateActivity()
                 }, onError = {
                     finishAndRemoveTask()
                 })
@@ -75,7 +75,7 @@ class SplashActivity : FragmentActivity() {
         viewModel.onTriggerEvent(SplashEvent.GetCoursesData)
     }
 
-    private fun navigateMainActivity() {
+    private fun onNavigateActivity() {
         val intent = Intent(this@SplashActivity, MainActivity::class.java)
         intent.data = this.intent.data
         startActivity(intent)
@@ -84,7 +84,7 @@ class SplashActivity : FragmentActivity() {
 }
 
 @Composable
-private fun SplashView(viewModel: SplashViewModel, onFinish: () -> Unit, onError: () -> Unit) {
+private fun SplashView(viewModel: SplashViewModel, onNavigateActivity: () -> Unit, onError: () -> Unit) {
     val uiState by viewModel.uiState.asStateFlow().collectAsState()
     val systemUiController = rememberSystemUiController()
     SideEffect {
@@ -109,14 +109,20 @@ private fun SplashView(viewModel: SplashViewModel, onFinish: () -> Unit, onError
             )
         }
     }
-    when (val baseState = uiState.commonState) {
-        is CommonState.Success -> onFinish()
+    when (val commonState = uiState.commonState) {
+        is CommonState.Idle -> {
+            if (uiState.isNextToMain) {
+                onNavigateActivity()
+            }
+        }
         is CommonState.Error ->
             ErrorDialog(
-                content = baseState.mess
+                content = commonState.mess
             ) {
                 onError()
             }
-        else -> {}
+        else -> {
+        }
+
     }
 }

@@ -64,7 +64,7 @@ class LoginViewModel @Inject constructor(
                 val info = uiState.value
                 onSaveAccountInfo(info.username, info.password) {
                     uiState.update {
-                        it.copy(commonState = CommonState.Success())
+                        it.copy(commonState = CommonState.Idle)
                     }
                 }
             } else {

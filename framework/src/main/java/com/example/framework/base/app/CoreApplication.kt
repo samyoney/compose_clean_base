@@ -32,4 +32,6 @@ abstract class CoreApplication : Application(), LifecycleEventObserver {
     open fun onAppForegrounded() {
         isAppInForeground = true
     }
+
+    abstract fun isDev(): Boolean
 }
