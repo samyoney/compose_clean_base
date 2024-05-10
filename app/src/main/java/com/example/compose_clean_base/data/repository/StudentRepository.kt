@@ -1,6 +1,8 @@
 package com.example.compose_clean_base.data.repository
 
 import com.example.compose_clean_base.BuildConfig
+import com.example.compose_clean_base.data.local.dao.StudentDao
+import com.example.compose_clean_base.data.model.local.StudentEntity
 import com.example.compose_clean_base.data.model.remote.request.LoginRequest
 import com.example.framework.pref.CacheManager
 import com.example.compose_clean_base.data.model.remote.request.RegisterRequest
@@ -14,6 +16,7 @@ import javax.inject.Inject
 class StudentRepository @Inject constructor(
     private val loginService: LoginService,
     private val registerService: RegisterService,
+    private val studentDao: StudentDao,
     private val cacheManager: CacheManager
     ) {
 
@@ -29,7 +32,7 @@ class StudentRepository @Inject constructor(
     }
 
     suspend fun register(username: String, password: String, courseId: String, name: String, birth: String) = if (BuildConfig.DEBUG) {
-        requireNotNull(cacheManager.readFromAssets("login.json").fromJson<RegisterResponse>())
+        requireNotNull(cacheManager.readFromAssets("register.json").fromJson<RegisterResponse>())
     } else {
         registerService.fetch(RegisterRequest(username, password, courseId, name, birth))
     }
@@ -49,4 +52,6 @@ class StudentRepository @Inject constructor(
         set(value) {
             cacheManager.write(PASSWORD_KEY, value)
         }
+
+    suspend fun saveListStudent(studentEntity: List<StudentEntity>) = studentDao.insert(studentEntity)
 }

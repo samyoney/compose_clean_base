@@ -5,7 +5,7 @@ import com.example.compose_clean_base.R
 import com.example.compose_clean_base.data.usecase.FetchRegisterUseCase
 import com.example.compose_clean_base.data.usecase.SaveAccountInfoUseCase
 import com.example.compose_clean_base.provider.mask.ResourceProvider
-import com.example.framework.base.CommonState
+import com.example.framework.base.StateObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import java.util.Locale
@@ -45,16 +45,16 @@ class LoginViewModel @Inject constructor(
 
     override fun startLoading() {
         super.startLoading()
-        uiState.update { it.copy(commonState = CommonState.Loading) }
+        uiState.update { it.copy(stateObserver = StateObserver.Loading) }
     }
 
     override fun handleError(errorText: String) {
-        uiState.update { it.copy(commonState = CommonState.Error(errorText)) }
+        uiState.update { it.copy(stateObserver = StateObserver.Error(errorText)) }
     }
 
     private fun onRegister() = safeLaunch {
         if (!checkValidation(uiState.value.username, uiState.value.password, uiState.value.birth)) {
-            uiState.update { it.copy(commonState = CommonState.Error(resourceProvider.getString(R.string.validation_fail_text))) }
+            uiState.update { it.copy(stateObserver = StateObserver.Error(resourceProvider.getString(R.string.validation_fail_text))) }
             return@safeLaunch
         }
         executeRemoteUseCase(
@@ -63,9 +63,8 @@ class LoginViewModel @Inject constructor(
             if (res.status == 200) {
                 val info = uiState.value
                 onSaveAccountInfo(info.username, info.password) {
-                    uiState.update {
-                        it.copy(commonState = CommonState.Idle)
-                    }
+                    uiState.update { it.copy(
+                        stateObserver = StateObserver.Idle(LoginState.IdleObserver(isNextScreen = true))) }
                 }
             } else {
                 handleError(resourceProvider.getString(R.string.error_api_message))
@@ -109,7 +108,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun onIdle() = safeLaunch {
-        uiState.update { it.copy(commonState = CommonState.Idle) }
+        uiState.update { it.copy(stateObserver = StateObserver.Idle()) }
     }
 
     private fun checkValidation(companyID: String?, userID: String?, birthDay: String?): Boolean {

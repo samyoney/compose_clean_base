@@ -29,7 +29,7 @@ import com.example.compose_clean_base.app.theme.BaseColor
 import com.example.compose_clean_base.app.theme.PurpleBgColor
 import com.example.compose_clean_base.app.theme.AppTheme
 import com.example.compose_clean_base.presentation.main.MainActivity
-import com.example.framework.base.CommonState
+import com.example.framework.base.StateObserver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.asStateFlow
 import kotlin.system.exitProcess
@@ -109,15 +109,15 @@ private fun SplashView(viewModel: SplashViewModel, onNavigateActivity: () -> Uni
             )
         }
     }
-    when (val commonState = uiState.commonState) {
-        is CommonState.Idle -> {
-            if (uiState.isNextToMain) {
+    when (val stateObserver = uiState.stateObserver) {
+        is StateObserver.Idle -> {
+            if (stateObserver.wakeUpData?.isNextScreen == true) {
                 onNavigateActivity()
             }
         }
-        is CommonState.Error ->
+        is StateObserver.Error ->
             ErrorDialog(
-                content = commonState.mess
+                content = stateObserver.mess
             ) {
                 onError()
             }

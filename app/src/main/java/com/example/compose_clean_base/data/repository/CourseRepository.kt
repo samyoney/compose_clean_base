@@ -14,13 +14,13 @@ class CourseRepository @Inject constructor(
     private val courseDao: CourseDao,
     private val cacheManager: CacheManager
 ) {
-    suspend fun getCoursesData() = if (BuildConfig.DEBUG) {
+    suspend fun fetchCourses() = if (BuildConfig.DEBUG) {
         requireNotNull((cacheManager.readFromAssets("course.json")).fromJson<CourseResponse>())
     } else {
         service.fetch()
     }
 
-    suspend fun saveCourse(entity: CourseEntity) {
-        courseDao.insert(entity)
-    }
+    suspend fun saveCourse(courseEntity: CourseEntity) = courseDao.insert(courseEntity)
+
+    suspend fun getEnrollCourse() = courseDao.getEnrollCourse()
 }

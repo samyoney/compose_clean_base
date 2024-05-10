@@ -10,10 +10,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class FetchLoginUseCase @Inject constructor(private val repository: StudentRepository) {
+class FetchAutoLoginUseCase @Inject constructor(private val repository: StudentRepository) {
 
-    operator fun invoke(username: String, password: String): Flow<ApiState<LoginResponse>> = flow {
-        val result = safeFetchApi { repository.login(username, password) }
+    operator fun invoke(
+    ): Flow<ApiState<LoginResponse>> = flow {
+        val result = safeFetchApi { repository.login(repository.username, repository.password) }
         emit(result)
     }.flowOn(Dispatchers.IO)
 }

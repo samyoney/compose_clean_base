@@ -13,7 +13,7 @@ import javax.inject.Inject
 class FetchCourseDataUseCase @Inject constructor(private val repository: CourseRepository) {
 
     operator fun invoke(): Flow<ApiState<CourseResponse>> = flow {
-        val result = safeFetchApi { repository.getCoursesData() }
+        val result = safeFetchApi { repository.fetchCourses() }
         emit(result)
     }.flowOn(Dispatchers.IO)
 }

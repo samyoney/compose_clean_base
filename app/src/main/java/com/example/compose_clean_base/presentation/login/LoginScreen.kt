@@ -59,7 +59,7 @@ import com.example.compose_clean_base.app.theme.dimen38
 import com.example.compose_clean_base.app.theme.dimen54
 import com.example.compose_clean_base.app.theme.LoginTextFieldBorder
 import com.example.compose_clean_base.provider.mask.NavigationProvider
-import com.example.framework.base.CommonState
+import com.example.framework.base.StateObserver
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Calendar
@@ -132,11 +132,15 @@ fun LoginScreen(
                 RegisterButton(viewModel)
             }
 
-            when(val commonState = uiState.commonState) {
-                is CommonState.Loading -> FullScreenLoading()
-                is CommonState.Idle -> navigator.openSam()
-                is CommonState.Error -> {
-                    ErrorDialog(content = commonState.mess) {
+            when(val stateObserver = uiState.stateObserver) {
+                is StateObserver.Loading -> FullScreenLoading()
+                is StateObserver.Idle -> {
+                    if (stateObserver.wakeUpData?.isNextScreen == true) {
+                        navigator.openSam()
+                    }
+                }
+                is StateObserver.Error -> {
+                    ErrorDialog(content = stateObserver.mess) {
                         viewModel.onTriggerEvent(LoginEvent.IdleReturn)
                     }
                 }

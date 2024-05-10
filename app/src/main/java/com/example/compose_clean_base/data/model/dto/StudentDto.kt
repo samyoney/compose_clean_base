@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class StudentDto(
-    val id: String,
+    val id: Long,
     val name: String,
     val birth: String,
 ): Parcelable

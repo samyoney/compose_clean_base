@@ -10,7 +10,7 @@ import com.squareup.moshi.JsonClass
 data class StudentEntity(
     @PrimaryKey(autoGenerate = true)
     @Json(name = "id")  val id: Long = 0,
-    @Json(name = "course_id")  val courseId: Long = 0,
+    @Json(name = "course_id")  val courseId: String? = null,
     @Json(name = "name")  val name: String,
     @Json(name = "birth") val birth: String,
 )
