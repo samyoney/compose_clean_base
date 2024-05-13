@@ -8,6 +8,5 @@ data class CourseDto(
     val id: String,
     val name: String,
     val instructor: String,
-    val topics: List<String>,
-    val students: List<StudentDto>
+    val topics: List<String>
 ) : Parcelable

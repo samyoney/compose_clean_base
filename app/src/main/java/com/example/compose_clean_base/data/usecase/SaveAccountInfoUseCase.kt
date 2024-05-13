@@ -1,13 +1,13 @@
 package com.example.compose_clean_base.data.usecase
 
-import com.example.compose_clean_base.data.repository.StudentRepository
+import com.example.compose_clean_base.data.repository.AccountRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class SaveAccountInfoUseCase @Inject constructor(private val repository: StudentRepository) {
+class SaveAccountInfoUseCase @Inject constructor(private val repository: AccountRepository) {
 
     operator fun invoke(
         username: String,

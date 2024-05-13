@@ -5,6 +5,7 @@ import com.example.compose_clean_base.app.AppApplication
 import com.example.compose_clean_base.data.remote.service.LoginService
 import com.example.compose_clean_base.data.remote.service.CourseService
 import com.example.compose_clean_base.data.remote.service.RegisterService
+import com.example.compose_clean_base.data.remote.service.StudentService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,4 +55,9 @@ object RemoteModule {
     @Provides
     fun provideCourseService(retrofit: Retrofit): CourseService =
         retrofit.create(CourseService::class.java)
+
+    @Provides
+    fun provideStudentService(retrofit: Retrofit): StudentService =
+        retrofit.create(StudentService::class.java)
+
 }

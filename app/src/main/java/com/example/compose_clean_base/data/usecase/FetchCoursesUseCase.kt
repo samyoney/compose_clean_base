@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class FetchCourseDataUseCase @Inject constructor(private val repository: CourseRepository) {
+class FetchCoursesUseCase @Inject constructor(private val repository: CourseRepository) {
 
     operator fun invoke(): Flow<ApiState<CourseResponse>> = flow {
         val result = safeFetchApi { repository.fetchCourses() }

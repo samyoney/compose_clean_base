@@ -72,7 +72,7 @@ class SplashActivity : FragmentActivity() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.onTriggerEvent(SplashEvent.GetCoursesData)
+        viewModel.onTriggerEvent(SplashEvent.InitData)
     }
 
     private fun onNavigateActivity() {

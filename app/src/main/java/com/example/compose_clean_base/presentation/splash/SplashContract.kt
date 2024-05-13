@@ -8,5 +8,5 @@ data class SplashState(var stateObserver: StateObserver<IdleObserver> = StateObs
 }
 
 sealed class SplashEvent {
-    data object GetCoursesData : SplashEvent()
+    data object InitData : SplashEvent()
 }

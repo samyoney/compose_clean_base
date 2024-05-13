@@ -9,9 +9,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetCourseUseCase @Inject constructor(private val courseRepository: CourseRepository) {
+class SearchCourseByNameUseCase @Inject constructor(private val courseRepository: CourseRepository) {
 
-    operator fun invoke(): Flow<List<CourseDto>> = flow {
-        emit(courseRepository.getEnrollCourse().map { it.toDto() })
+    operator fun invoke(name: String): Flow<List<CourseDto>> = flow {
+        emit(courseRepository.getEnrollCourse().filter { it.course.name == name }.map {
+            it.course.toDto()
+        })
     }.flowOn(Dispatchers.IO)
 }

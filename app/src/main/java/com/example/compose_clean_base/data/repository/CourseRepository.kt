@@ -20,7 +20,7 @@ class CourseRepository @Inject constructor(
         service.fetch()
     }
 
-    suspend fun saveCourse(courseEntity: CourseEntity) = courseDao.insert(courseEntity)
+    suspend fun insertListCourse(courseEntity: List<CourseEntity>) = courseDao.insert(courseEntity)
 
-    suspend fun getEnrollCourse() = courseDao.getEnrollCourse()
+    suspend fun getEnrollCourse() = courseDao.getClassEnroll()
 }

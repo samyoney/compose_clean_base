@@ -1,7 +1,6 @@
 package com.example.compose_clean_base.data.usecase
 
-import com.example.compose_clean_base.data.model.remote.response.LoginResponse
-import com.example.compose_clean_base.data.repository.AccountRepository
+import com.example.compose_clean_base.data.model.remote.response.StudentResponse
 import com.example.compose_clean_base.data.repository.StudentRepository
 import com.example.framework.network.ApiState
 import com.example.framework.network.safeFetchApi
@@ -11,10 +10,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class FetchLoginUseCase @Inject constructor(private val repository: AccountRepository) {
+class FetchStudentsUseCase @Inject constructor(private val repository: StudentRepository) {
 
-    operator fun invoke(username: String, password: String): Flow<ApiState<LoginResponse>> = flow {
-        val result = safeFetchApi { repository.login(username, password) }
+    operator fun invoke(): Flow<ApiState<StudentResponse>> = flow {
+        val result = safeFetchApi { repository.fetchStudents() }
         emit(result)
     }.flowOn(Dispatchers.IO)
 }

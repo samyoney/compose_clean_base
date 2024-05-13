@@ -11,18 +11,6 @@
         "Control Flow",
         "Functions",
         "Arrays"
-      ],
-      "students": [
-        {
-          "id": "1",
-          "name": "Alice",
-          "birth": "1990-05-15"
-        },
-        {
-          "id": "2",
-          "name": "Bob",
-          "birth": "1992-08-21"
-        }
       ]
     },
     {
@@ -34,18 +22,6 @@
         "Linked Lists",
         "Stacks",
         "Queues"
-      ],
-      "students": [
-        {
-          "id": "4",
-          "name": "Charlie",
-          "birth": "1988-12-03"
-        },
-        {
-          "id": "5",
-          "name": "Diana",
-          "birth": "1991-10-30"
-        }
       ]
     }
   ]

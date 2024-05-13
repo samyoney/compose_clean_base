@@ -4,22 +4,20 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CourseResponse(
+data class StudentResponse(
     override val status: Int,
     override val message: String,
-    @Json(name = "courses")
-    val course: List<Course>
+    @Json(name = "students")
+    val students: List<Student>
     ): BaseResponse() {
 
     @JsonClass(generateAdapter = true)
-    data class Course(
+    data class Student(
         @Json(name = "id")
         val id: String,
         @Json(name = "name")
         val name: String,
-        @Json(name = "instructor")
-        val instructor: String,
-        @Json(name = "topics")
-        val topics: List<String>,
+        @Json(name = "birth")
+        val birth: String,
     )
 }
