@@ -1,4 +1,4 @@
-package com.example.compose_clean_base.data.usecase
+package com.example.compose_clean_base.data.usecase.login
 
 import com.example.compose_clean_base.data.repository.AccountRepository
 import kotlinx.coroutines.Dispatchers
@@ -12,8 +12,9 @@ class SaveAccountInfoUseCase @Inject constructor(private val repository: Account
     operator fun invoke(
         username: String,
         password: String,
-    ): Flow<Unit> = flow<Unit> {
+    ): Flow<Unit> = flow {
         repository.username = username
         repository.password = password
+        emit(Unit)
     }.flowOn(Dispatchers.IO)
 }

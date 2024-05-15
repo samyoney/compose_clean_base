@@ -1,10 +1,11 @@
-package com.example.compose_clean_base.data.usecase
+package com.example.compose_clean_base.data.usecase.enroll
 
 import com.example.compose_clean_base.data.model.remote.response.CourseResponse
 import com.example.compose_clean_base.data.repository.CourseRepository
 import com.example.framework.network.ApiState
 import com.example.framework.network.safeFetchApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn

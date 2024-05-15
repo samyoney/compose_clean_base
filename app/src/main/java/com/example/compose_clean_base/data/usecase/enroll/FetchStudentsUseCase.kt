@@ -1,4 +1,4 @@
-package com.example.compose_clean_base.data.usecase
+package com.example.compose_clean_base.data.usecase.enroll
 
 import com.example.compose_clean_base.data.model.remote.response.StudentResponse
 import com.example.compose_clean_base.data.repository.StudentRepository

@@ -10,16 +10,19 @@ import com.example.compose_clean_base.data.remote.service.StudentService
 import com.example.compose_clean_base.data.repository.AccountRepository
 import com.example.compose_clean_base.data.repository.CourseRepository
 import com.example.compose_clean_base.data.repository.StudentRepository
-import com.example.compose_clean_base.data.usecase.CheckDataInitializedUseCase
-import com.example.compose_clean_base.data.usecase.FetchAutoLoginUseCase
-import com.example.compose_clean_base.data.usecase.FetchLoginUseCase
-import com.example.compose_clean_base.data.usecase.FetchRegisterUseCase
-import com.example.compose_clean_base.data.usecase.GetStudentsByCourseIdUseCase
-import com.example.compose_clean_base.data.usecase.LoggedInCheckerUseCase
-import com.example.compose_clean_base.data.usecase.SaveAccountInfoUseCase
-import com.example.compose_clean_base.data.usecase.SaveCoursesUseCase
-import com.example.compose_clean_base.data.usecase.SaveStudentsUseCase
-import com.example.compose_clean_base.data.usecase.SearchCourseByNameUseCase
+import com.example.compose_clean_base.data.usecase.enroll.AddStudentIntoCourseUseCase
+import com.example.compose_clean_base.data.usecase.enroll.CheckDataInitializedUseCase
+import com.example.compose_clean_base.data.usecase.login.FetchAutoLoginUseCase
+import com.example.compose_clean_base.data.usecase.login.FetchLoginUseCase
+import com.example.compose_clean_base.data.usecase.login.FetchRegisterUseCase
+import com.example.compose_clean_base.data.usecase.enroll.GetStudentsByCourseIdUseCase
+import com.example.compose_clean_base.data.usecase.login.CheckLoggedInUseCase
+import com.example.compose_clean_base.data.usecase.login.SaveAccountInfoUseCase
+import com.example.compose_clean_base.data.usecase.enroll.SaveCoursesUseCase
+import com.example.compose_clean_base.data.usecase.enroll.SaveStudentsUseCase
+import com.example.compose_clean_base.data.usecase.enroll.GetCoursesUseCase
+import com.example.compose_clean_base.data.usecase.enroll.GetStudentsUseCase
+import com.example.compose_clean_base.data.usecase.enroll.RemoveStudentFromCourseUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -88,15 +91,30 @@ object DataModule {
     @Provides
     fun provideSearchCourseByNameUseCase(
         courseRepository: CourseRepository
-    ) = SearchCourseByNameUseCase(courseRepository)
+    ) = GetCoursesUseCase(courseRepository)
 
     @Provides
     fun provideLoggedInCheckerUseCase(
         accountRepository: AccountRepository
-    ) = LoggedInCheckerUseCase(accountRepository)
+    ) = CheckLoggedInUseCase(accountRepository)
 
     @Provides
     fun provideCheckDataInitializedUseCase(
         courseRepository: CourseRepository
     ) = CheckDataInitializedUseCase(courseRepository)
+
+    @Provides
+    fun provideGetStudentsUseCase(
+        studentRepository: StudentRepository
+    ) = GetStudentsUseCase(studentRepository)
+
+    @Provides
+    fun provideAddStudentsIntoCourseUseCase(
+        studentRepository: StudentRepository
+    ) = AddStudentIntoCourseUseCase(studentRepository)
+
+    @Provides
+    fun provideRemoveStudentFromCourseUseCase(
+        studentRepository: StudentRepository
+    ) = RemoveStudentFromCourseUseCase(studentRepository)
 }

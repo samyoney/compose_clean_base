@@ -11,10 +11,18 @@
     <string name="birthday_description">Enter your date of birth in 6 digits</string>
     <string name= "ok">OK</string>
     <string name= "cancel">Cancel</string>
+    <string name="go_to_register">Go To Register</string>
+    <string name="back_to_login">Back To Login</string>
+    <string name="login">Login</string>
     <string name="register">Register</string>
-
     <string name="login_nav_tab">Login</string>
-    <string name="sam_nav_tab">SAM</string>
+    <string name="register_nav_tab">Register</string>
+    <string name="course_nav_tab">Course</string>
+    <string name="student_nav_tab">Student</string>
     <string name="error_api_message">Api Error</string>
 
+    <string name="total_students_title">Total Students</string>
+    <string name="enrolled_student">Enrolled Students</string>
+    <string name="register_course">Register Code</string>
+    <string name="remove_student">Remove</string>
 </resources>

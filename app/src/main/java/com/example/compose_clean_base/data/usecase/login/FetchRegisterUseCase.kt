@@ -1,4 +1,4 @@
-package com.example.compose_clean_base.data.usecase
+package com.example.compose_clean_base.data.usecase.login
 
 import com.example.compose_clean_base.data.model.remote.response.RegisterResponse
 import com.example.compose_clean_base.data.repository.AccountRepository

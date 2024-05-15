@@ -1,4 +1,4 @@
-package com.example.compose_clean_base.data.usecase
+package com.example.compose_clean_base.data.usecase.enroll
 
 import com.example.compose_clean_base.data.model.dto.StudentDto
 import com.example.compose_clean_base.data.model.dto.toDtoList
@@ -12,6 +12,8 @@ import javax.inject.Inject
 class GetStudentsByCourseIdUseCase @Inject constructor(private val courseRepository: CourseRepository) {
 
     operator fun invoke(courseId: String): Flow<List<StudentDto>> = flow {
-        emit(courseRepository.getEnrollCourse().first { it.course.id == courseId }.students.toDtoList())
+        val enrollCourse = courseRepository.getEnrollCourse()
+        val listStudentDto = enrollCourse.first { it.course.id.contentEquals(courseId) }.students.toDtoList()
+        emit(listStudentDto)
     }.flowOn(Dispatchers.IO)
 }

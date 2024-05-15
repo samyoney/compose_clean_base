@@ -7,6 +7,7 @@ import com.example.compose_clean_base.data.model.remote.response.CourseResponse
 import com.example.compose_clean_base.data.remote.service.CourseService
 import com.example.framework.extension.fromJson
 import com.example.framework.pref.CacheManager
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class CourseRepository @Inject constructor(
@@ -15,6 +16,7 @@ class CourseRepository @Inject constructor(
     private val cacheManager: CacheManager
 ) {
     suspend fun fetchCourses() = if (BuildConfig.DEBUG) {
+        delay(1000)
         requireNotNull((cacheManager.readFromAssets("course.json")).fromJson<CourseResponse>())
     } else {
         service.fetch()

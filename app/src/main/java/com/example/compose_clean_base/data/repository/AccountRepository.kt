@@ -9,6 +9,7 @@ import com.example.compose_clean_base.data.model.remote.response.RegisterRespons
 import com.example.compose_clean_base.data.remote.service.LoginService
 import com.example.compose_clean_base.data.remote.service.RegisterService
 import com.example.framework.extension.fromJson
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class AccountRepository @Inject constructor(
@@ -23,6 +24,7 @@ class AccountRepository @Inject constructor(
     }
 
     suspend fun login(username: String, password: String) = if (BuildConfig.DEBUG) {
+        delay(1000)
         requireNotNull(cacheManager.readFromAssets("login.json").fromJson<LoginResponse>())
     } else {
         loginService.fetch(LoginRequest(username, password))

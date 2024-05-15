@@ -1,8 +1,7 @@
-package com.example.compose_clean_base.data.usecase
+package com.example.compose_clean_base.data.usecase.login
 
 import com.example.compose_clean_base.data.model.remote.response.LoginResponse
 import com.example.compose_clean_base.data.repository.AccountRepository
-import com.example.compose_clean_base.data.repository.StudentRepository
 import com.example.framework.network.ApiState
 import com.example.framework.network.safeFetchApi
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.example.compose_clean_base.data.usecase
+package com.example.compose_clean_base.data.usecase.enroll
 
 import com.example.compose_clean_base.data.model.dto.CourseDto
 import com.example.compose_clean_base.data.model.dto.toDto
@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class SearchCourseByNameUseCase @Inject constructor(private val courseRepository: CourseRepository) {
+class GetCoursesUseCase @Inject constructor(private val courseRepository: CourseRepository) {
 
-    operator fun invoke(name: String): Flow<List<CourseDto>> = flow {
-        emit(courseRepository.getEnrollCourse().filter { it.course.name == name }.map {
+    operator fun invoke(): Flow<List<CourseDto>> = flow {
+        emit(courseRepository.getEnrollCourse().map {
             it.course.toDto()
         })
     }.flowOn(Dispatchers.IO)
