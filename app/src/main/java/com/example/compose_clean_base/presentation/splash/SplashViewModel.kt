@@ -12,6 +12,7 @@ import com.example.compose_clean_base.data.usecase.enroll.SaveCoursesUseCase
 import com.example.compose_clean_base.provider.mask.ResourceProvider
 import com.example.framework.base.StateObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -65,16 +66,19 @@ class SplashViewModel @Inject constructor(
 
     private fun login() = safeLaunch {
         if (checkLoggedInUseCase()) {
-            uiState.update { it.copy(
-                stateObserver = StateObserver.Idle(SplashState.IdleObserver(isNextScreen = true))) }
+            onNextScreen()
         } else {
             executeRemoteUseCase(fetchAutoLoginUseCase()) { res ->
                 if (res.status == 200) {
-                    uiState.update { it.copy(
-                        stateObserver = StateObserver.Idle(SplashState.IdleObserver(isNextScreen = true))) }
-                }
+                    onNextScreen()                }
             }
         }
+    }
+
+    private fun onNextScreen() = safeLaunch {
+        delay(2000)
+        uiState.update { it.copy(
+            stateObserver = StateObserver.Idle(SplashState.IdleObserver(isNextScreen = true))) }
     }
 }
 
