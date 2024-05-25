@@ -1,0 +1,28 @@
+{
+  "status": 200,
+  "message": "Success",
+  "courses": [
+    {
+      "id": "123",
+      "name": "Introduction to Programming",
+      "instructor": "John Doe",
+      "topics": [
+        "Variables",
+        "Control Flow",
+        "Functions",
+        "Arrays"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Data Structures and Algorithms",
+      "instructor": "Jane Smith",
+      "topics": [
+        "Arrays",
+        "Linked Lists",
+        "Stacks",
+        "Queues"
+      ]
+    }
+  ]
+}
