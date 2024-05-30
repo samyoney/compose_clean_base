@@ -29,5 +29,5 @@ class StudentRepository @Inject constructor(
 
     suspend fun updateStudent(studentEntity: StudentEntity) = studentDao.update(studentEntity)
 
-    suspend fun insertListStudent(studentEntity: List<StudentEntity>) = studentDao.insert(studentEntity)
+    suspend fun insertListStudent(studentEntities: List<StudentEntity>) = studentDao.insert(studentEntities)
 }
