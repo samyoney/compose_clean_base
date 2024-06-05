@@ -162,9 +162,9 @@ class LoginViewModel @Inject constructor(
         uiState.update { it.copy(stateObserver = StateObserver.Idle()) }
     }
 
-    private fun checkValidation(companyID: String?, userID: String?, birthDay: String? = null): Boolean {
-        val isCompanyIDValid = isValidString(companyID)
-        val isUserValid = isValidString(userID)
+    private fun checkValidation(username: String?, password: String?, birthDay: String? = null): Boolean {
+        val isCompanyIDValid = isValidString(username)
+        val isUserValid = isValidString(password)
 
         val isBirthdayValid = if (birthDay != null) isValidString(birthDay) else true
         return isCompanyIDValid && isUserValid && isBirthdayValid

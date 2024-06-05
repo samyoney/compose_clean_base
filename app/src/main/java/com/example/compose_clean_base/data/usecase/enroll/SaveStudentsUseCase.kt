@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.flowOn
 
 class SaveStudentsUseCase @Inject constructor(private val studentRepository: StudentRepository) {
 
-    operator fun invoke(student: List<StudentResponse.Student>): Flow<Unit> = flow {
-        val listStudentEntity = student.map {
+    operator fun invoke(students: List<StudentResponse.Student>): Flow<Unit> = flow {
+        val listStudentEntity = students.map {
             StudentEntity(name = it.name, birth = it.birth)
         }
         studentRepository.insertListStudent(listStudentEntity)
