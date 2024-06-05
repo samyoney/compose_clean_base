@@ -39,16 +39,16 @@ object Configs {
     )
 
     object Release {
-        const val BaseUrl = "https://ibn2ef5etg.execute-api.ap-northeast-1.amazonaws.com/prd/"
+        const val BaseUrl = "https://us-central1-samyoney.cloudfunctions.net/api/"
         const val DbName = "DB_RELEASE"
-        const val ApiKey = "ZSAEsqtDIYaWxVPYHh4av1m3sXRgrHRb9G5hU6Zj"
+        const val ApiKey = ""
         const val LicenseKey = "2rNBCbhAxtwXunYHpqJkM4v61mTRIfU3yoj7FgP0"
     }
 
     object Debug {
-        const val BaseUrl = "https://gtwnd2x4a7.execute-api.ap-northeast-1.amazonaws.com/dev/"
+        const val BaseUrl = "https://us-central1-samyoney.cloudfunctions.net/api/"
         const val DbName = "DB_DEBUG"
-        const val ApiKey = "e4A6UfnYO4aKtrL5UiCRY1F0RSWFOhnz8jOTSTPB"
+        const val ApiKey = ""
         const val LicenseKey = "2rNBCbhAxtwXunYHpqJkM4v61mTRIfU3yoj7FgP0"
     }
 }

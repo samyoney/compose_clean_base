@@ -1,15 +1,10 @@
 package com.example.compose_clean_base.data.repository
 
-import com.example.compose_clean_base.BuildConfig
 import com.example.compose_clean_base.data.model.remote.request.LoginRequest
 import com.example.framework.pref.CacheManager
 import com.example.compose_clean_base.data.model.remote.request.RegisterRequest
-import com.example.compose_clean_base.data.model.remote.response.LoginResponse
-import com.example.compose_clean_base.data.model.remote.response.RegisterResponse
 import com.example.compose_clean_base.data.remote.service.LoginService
 import com.example.compose_clean_base.data.remote.service.RegisterService
-import com.example.framework.extension.fromJson
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class AccountRepository @Inject constructor(
@@ -23,18 +18,11 @@ class AccountRepository @Inject constructor(
         private const val PASSWORD_KEY = "PASSWORD_KEY"
     }
 
-    suspend fun login(username: String, password: String) = if (BuildConfig.DEBUG) {
-        delay(1000)
-        requireNotNull(cacheManager.readFromAssets("login.json").fromJson<LoginResponse>())
-    } else {
+    suspend fun login(username: String, password: String) =
         loginService.fetch(LoginRequest(username, password))
-    }
 
-    suspend fun register(username: String, password: String, courseId: String, name: String, birth: String) = if (BuildConfig.DEBUG) {
-        requireNotNull(cacheManager.readFromAssets("register.json").fromJson<RegisterResponse>())
-    } else {
+    suspend fun register(username: String, password: String, courseId: String, name: String, birth: String) =
         registerService.fetch(RegisterRequest(username, password, courseId, name, birth))
-    }
 
     var username: String
         get() {

@@ -77,7 +77,7 @@ class LoginViewModel @Inject constructor(
         executeRemoteUseCase(
             fetchLoginUseCase(uiState.value.username, uiState.value.password)
         ) { res ->
-            if (res.status == 200) {
+            if (res.status == 0) {
                 val info = uiState.value
                 handleAfterLogin(info.username, info.password)
             } else {
@@ -94,7 +94,7 @@ class LoginViewModel @Inject constructor(
         executeRemoteUseCase(
             fetchRegisterUseCase(uiState.value.username, uiState.value.password, "", uiState.value.name, uiState.value.birth)
         ) { res ->
-            if (res.status == 200) {
+            if (res.status == 0) {
                 val info = uiState.value
                 handleAfterLogin(info.username, info.password)
             } else {
@@ -113,7 +113,7 @@ class LoginViewModel @Inject constructor(
 
     private fun fetchStudentsData(onFinish: (res: StudentResponse) -> Unit) = safeLaunch {
         executeRemoteUseCase(fetchStudentsUseCase()) { res ->
-            if (res.status == 200) {
+            if (res.status == 0) {
                 onFinish(res)
             } else {
                 handleError(resourceProvider.getString(R.string.error_api_message))

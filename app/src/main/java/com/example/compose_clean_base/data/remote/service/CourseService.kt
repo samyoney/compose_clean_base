@@ -1,12 +1,9 @@
 package com.example.compose_clean_base.data.remote.service
 
-import com.example.compose_clean_base.BuildConfig
 import com.example.compose_clean_base.data.model.remote.response.CourseResponse
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.GET
 
 interface CourseService {
-    @Headers("x-api-key: ${BuildConfig.API_KEY}")
-    @POST("get/courses")
+    @GET("courses")
     suspend fun fetch(): CourseResponse
 }

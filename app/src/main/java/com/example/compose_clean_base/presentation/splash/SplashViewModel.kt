@@ -47,7 +47,7 @@ class SplashViewModel @Inject constructor(
 
     private fun fetchCoursesData() = safeLaunch {
         executeRemoteUseCase(fetchCoursesUseCase()) { res ->
-            if (res.status == 200) {
+            if (res.status == 0) {
                 saveCourses(res)
                 login()
             } else {
@@ -69,7 +69,7 @@ class SplashViewModel @Inject constructor(
             onNextScreen()
         } else {
             executeRemoteUseCase(fetchAutoLoginUseCase()) { res ->
-                if (res.status == 200) {
+                if (res.status == 0) {
                     onNextScreen()                }
             }
         }
