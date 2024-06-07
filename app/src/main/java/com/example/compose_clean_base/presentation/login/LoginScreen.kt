@@ -31,20 +31,39 @@ import com.example.framework.base.StateObserver
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.asStateFlow
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Destination(start = true)
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     navigator: NavigationProvider
 ) {
-    val uiState by viewModel.uiState.asStateFlow().collectAsState()
+    val uiState by viewModel._uiState.asStateFlow().collectAsState()
 
+    when (val stateObserver = uiState) {
+        is StateObserver.Loading -> FullScreenLoading()
+        is StateObserver.Update -> {
+            if (stateObserver.data.isNextScreen) {
+                navigator.openSam()
+            }
+        }
+        is StateObserver.Error -> {
+            ErrorDialog(content = stateObserver.mess) {
+                viewModel.onTriggerEvent(LoginEvent.IdleReturn)
+            }
+        }
+
+        else -> {}
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun LoginContentView(isRegisterScreen: Boolean, uiState: LoginState, viewModel: LoginViewModel) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
-        topBar = { Toolbar(if (uiState.isRegisterScreen) R.string.register_nav_tab else R.string.login_nav_tab) },
+        topBar = { Toolbar(if (isRegisterScreen) R.string.register_nav_tab else R.string.login_nav_tab) },
         content = { padding ->
             val modifier = Modifier
                 .fillMaxSize()
@@ -119,23 +138,7 @@ fun LoginScreen(
 
                 }
             }
-
-            when (val stateObserver = uiState.stateObserver) {
-                is StateObserver.Loading -> FullScreenLoading()
-                is StateObserver.Idle -> {
-                    if (stateObserver.wakeUpData?.isNextScreen == true) {
-                        navigator.openSam()
-                    }
-                }
-
-                is StateObserver.Error -> {
-                    ErrorDialog(content = stateObserver.mess) {
-                        viewModel.onTriggerEvent(LoginEvent.IdleReturn)
-                    }
-                }
-
-                else -> {}
-            }
         }
     )
+
 }

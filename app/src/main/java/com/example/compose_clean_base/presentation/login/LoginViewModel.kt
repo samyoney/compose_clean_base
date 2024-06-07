@@ -11,7 +11,6 @@ import com.example.compose_clean_base.data.usecase.login.SaveAccountInfoUseCase
 import com.example.compose_clean_base.provider.mask.ResourceProvider
 import com.example.framework.base.StateObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.update
 import java.util.Locale
 import javax.inject.Inject
 
@@ -58,28 +57,27 @@ class LoginViewModel @Inject constructor(
 
     override fun startLoading() {
         super.startLoading()
-        uiState.update { it.copy(stateObserver = StateObserver.Loading) }
+        updateObservableState { StateObserver.Loading }
     }
 
     override fun handleError(errorText: String) {
-        uiState.update { it.copy(stateObserver = StateObserver.Error(errorText)) }
+        updateObservableState { StateObserver.Error(errorText) }
     }
 
     private fun onChangeMode() = safeLaunch {
-        uiState.update { it.copy(isRegisterScreen = !it.isRegisterScreen) }
+        updateState { it.copy(isRegisterScreen = !it.isRegisterScreen) }
     }
 
     private fun onLogin() = safeLaunch {
-        if (!checkValidation(uiState.value.username, uiState.value.password)) {
-            uiState.update { it.copy(stateObserver = StateObserver.Error(resourceProvider.getString(R.string.validation_fail_text))) }
+        if (!checkValidation(uiState.username, uiState.password)) {
+            updateObservableState {  StateObserver.Error(resourceProvider.getString(R.string.validation_fail_text)) }
             return@safeLaunch
         }
         executeRemoteUseCase(
-            fetchLoginUseCase(uiState.value.username, uiState.value.password)
+            fetchLoginUseCase(uiState.username, uiState.password)
         ) { res ->
             if (res.status == 0) {
-                val info = uiState.value
-                handleAfterLogin(info.username, info.password)
+                handleAfterLogin(uiState.username, uiState.password)
             } else {
                 handleError(resourceProvider.getString(R.string.error_api_message))
             }
@@ -87,16 +85,15 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun onRegister() = safeLaunch {
-        if (!checkValidation(uiState.value.username, uiState.value.password, uiState.value.birth)) {
-            uiState.update { it.copy(stateObserver = StateObserver.Error(resourceProvider.getString(R.string.validation_fail_text))) }
+        if (!checkValidation(uiState.username, uiState.password, uiState.birth)) {
+            updateObservableState {  StateObserver.Error(resourceProvider.getString(R.string.validation_fail_text)) }
             return@safeLaunch
         }
         executeRemoteUseCase(
-            fetchRegisterUseCase(uiState.value.username, uiState.value.password, "", uiState.value.name, uiState.value.birth)
+            fetchRegisterUseCase(uiState.username, uiState.password, "", uiState.name, uiState.birth)
         ) { res ->
             if (res.status == 0) {
-                val info = uiState.value
-                handleAfterLogin(info.username, info.password)
+                handleAfterLogin(uiState.username, uiState.password)
             } else {
                 handleError(resourceProvider.getString(R.string.error_api_message))
             }
@@ -107,7 +104,7 @@ class LoginViewModel @Inject constructor(
             fetchStudentsData {res ->
                 saveStudents(res)
                 saveAccountInfo(username, password)
-                uiState.update { it.copy(stateObserver = StateObserver.Idle(LoginState.IdleObserver(isNextScreen = true))) }
+                updateState {  it.copy(isNextScreen = true) }
             }
     }
 
@@ -131,7 +128,7 @@ class LoginViewModel @Inject constructor(
 
     private fun onInputUsername(text: String) = safeLaunch {
         if ((text.isEmpty() || text.matches("^[A-Z0-9a-z]+$".toRegex())) && text.length <= 16) {
-            uiState.update {
+            updateState {
                     it.copy(username = text.uppercase(Locale.US))
             }
         }
@@ -139,27 +136,27 @@ class LoginViewModel @Inject constructor(
 
     private fun onInputPassword(text: String) = safeLaunch {
         if ((text.isEmpty() || text.matches("^[A-Z0-9a-z]+$".toRegex())) && text.length <= 16) {
-            uiState.update {
+            updateState {
                 it.copy(password = text.uppercase(Locale.US))
             }
         }
     }
 
     private fun onInputName(text: String) = safeLaunch {
-        uiState.update {
+        updateState {
             it.copy(name = text)
         }
     }
 
     private fun onInputBirth(year: Int, month: Int) = safeLaunch {
         val birthText = "$year/$month"
-        uiState.update {
+        updateState {
             it.copy(birth = birthText)
         }
     }
 
     private fun onIdle() = safeLaunch {
-        uiState.update { it.copy(stateObserver = StateObserver.Idle()) }
+        updateObservableState { StateObserver.Idle }
     }
 
     private fun checkValidation(username: String?, password: String?, birthDay: String? = null): Boolean {

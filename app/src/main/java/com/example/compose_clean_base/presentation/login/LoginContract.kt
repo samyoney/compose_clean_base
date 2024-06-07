@@ -1,18 +1,13 @@
 package com.example.compose_clean_base.presentation.login
 
-import com.example.framework.base.StateObserver
-
-
 data class LoginState(
     var username: String = String(),
     var password: String = String(),
     var name: String = String(),
     var birth: String = String(),
     var isRegisterScreen: Boolean = false,
-    var stateObserver: StateObserver<IdleObserver> = StateObserver.Empty
-    ) {
-    data class IdleObserver(var isNextScreen: Boolean = false)
-}
+    var isNextScreen: Boolean = false
+    )
 
 sealed class LoginEvent {
     data class InputUsername(var text: String): LoginEvent()

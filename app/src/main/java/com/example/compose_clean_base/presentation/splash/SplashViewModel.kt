@@ -61,7 +61,7 @@ class SplashViewModel @Inject constructor(
     }
 
     override fun handleError(errorText: String) {
-        uiState.update { it.copy(stateObserver = StateObserver.Error(errorText)) }
+        updateObservableState { StateObserver.Error(errorText) }
     }
 
     private fun login() = safeLaunch {
@@ -77,8 +77,7 @@ class SplashViewModel @Inject constructor(
 
     private fun onNextScreen() = safeLaunch {
         delay(2000)
-        uiState.update { it.copy(
-            stateObserver = StateObserver.Idle(SplashState.IdleObserver(isNextScreen = true))) }
+        updateState { it.copy(isNextScreen = true) }
     }
 }
 

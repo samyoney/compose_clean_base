@@ -9,15 +9,35 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-abstract class BaseViewModel<ViewState> : ViewModel() {
+abstract class BaseViewModel<ViewState : Any> : ViewModel() {
+
+    val _uiState: MutableStateFlow<StateObserver<ViewState>> by lazy {
+        val data = initialState()
+        uiState = data
+        MutableStateFlow(StateObserver.Initial(data = data))
+    }
 
     abstract fun initialState(): ViewState
 
-    val uiState: MutableStateFlow<ViewState> by lazy {
-        MutableStateFlow(initialState())
+    protected lateinit var uiState: ViewState
+
+    fun updateState(transform: (ViewState) -> ViewState) {
+        _uiState.update {
+            val transformData = transform(uiState)
+            val state = StateObserver.Update(data = transformData)
+            uiState = state.data
+            state
+        }
+    }
+
+    fun updateObservableState(transform: (StateObserver<ViewState>) -> StateObserver<ViewState>) {
+        _uiState.update { state ->
+            transform(state)
+        }
     }
 
     private val handler = CoroutineExceptionHandler { _, exception ->
