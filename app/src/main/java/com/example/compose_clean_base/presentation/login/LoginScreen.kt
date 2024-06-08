@@ -27,7 +27,7 @@ import com.example.compose_clean_base.presentation.login.view.LoginBirthButton
 import com.example.compose_clean_base.presentation.login.view.LoginInputField
 import com.example.compose_clean_base.presentation.login.view.LoginButton
 import com.example.compose_clean_base.provider.mask.NavigationProvider
-import com.example.framework.base.StateObserver
+import com.example.framework.base.LoadingState
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -120,20 +120,16 @@ fun LoginScreen(
                 }
             }
 
-            when (val stateObserver = uiState.stateObserver) {
-                is StateObserver.Loading -> FullScreenLoading()
-                is StateObserver.Idle -> {
-                    if (stateObserver.wakeUpData?.isNextScreen == true) {
-                        navigator.openSam()
-                    }
+            when (val stateObserver = uiState.loadingState) {
+                is LoadingState.Loading -> FullScreenLoading()
+                is LoadingState.Loaded -> {
+                    navigator.openSam()
                 }
-
-                is StateObserver.Error -> {
+                is LoadingState.Error -> {
                     ErrorDialog(content = stateObserver.mess) {
                         viewModel.onTriggerEvent(LoginEvent.IdleReturn)
                     }
                 }
-
                 else -> {}
             }
         }

@@ -29,7 +29,7 @@ import com.example.compose_clean_base.app.theme.BaseColor
 import com.example.compose_clean_base.app.theme.PurpleBgColor
 import com.example.compose_clean_base.app.theme.AppTheme
 import com.example.compose_clean_base.presentation.main.MainActivity
-import com.example.framework.base.StateObserver
+import com.example.framework.base.LoadingState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.asStateFlow
 import kotlin.system.exitProcess
@@ -91,31 +91,32 @@ private fun SplashView(viewModel: SplashViewModel, onNavigateActivity: () -> Uni
         systemUiController.setStatusBarColor(PurpleBgColor)
         systemUiController.setNavigationBarColor(PurpleBgColor)
     }
-
-    Surface(
-        modifier = Modifier
-            .fillMaxSize(),
-        color = PurpleBgColor
-    ) {
-        BoxWithConstraints(
-            contentAlignment = Alignment.Center
-        ) {
-            val imageSize = maxWidth / 2
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.size(imageSize)
-            )
+    when (val stateObserver = uiState) {
+        is LoadingState.Idle -> {
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize(),
+                color = PurpleBgColor
+            ) {
+                BoxWithConstraints(
+                    contentAlignment = Alignment.Center
+                ) {
+                    val imageSize = maxWidth / 2
+                    Image(
+                        painter = painterResource(id = R.drawable.logo),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(imageSize)
+                    )
+                }
+            }
         }
-    }
-    when (val stateObserver = uiState.stateObserver) {
-        is StateObserver.Idle -> {
-            if (stateObserver.wakeUpData?.isNextScreen == true) {
+        is LoadingState.Loaded -> {
+            if (stateObserver.data?.isNextScreen == true) {
                 onNavigateActivity()
             }
         }
-        is StateObserver.Error ->
+        is LoadingState.Error ->
             ErrorDialog(
                 content = stateObserver.mess
             ) {

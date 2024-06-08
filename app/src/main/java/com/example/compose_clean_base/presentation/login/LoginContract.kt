@@ -1,6 +1,6 @@
 package com.example.compose_clean_base.presentation.login
 
-import com.example.framework.base.StateObserver
+import com.example.framework.base.LoadingState
 
 
 data class LoginState(
@@ -9,10 +9,8 @@ data class LoginState(
     var name: String = String(),
     var birth: String = String(),
     var isRegisterScreen: Boolean = false,
-    var stateObserver: StateObserver<IdleObserver> = StateObserver.Empty
-    ) {
-    data class IdleObserver(var isNextScreen: Boolean = false)
-}
+    var loadingState: LoadingState<Nothing> = LoadingState.Idle
+    )
 
 sealed class LoginEvent {
     data class InputUsername(var text: String): LoginEvent()

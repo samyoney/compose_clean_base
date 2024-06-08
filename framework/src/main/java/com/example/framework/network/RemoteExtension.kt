@@ -3,11 +3,11 @@ package com.example.framework.network
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-suspend fun <T : Any> safeFetchApi(call: suspend () -> T): ApiState<T> = withContext(Dispatchers.IO) {
+suspend fun <T : Any> safeFetchApi(call: suspend () -> T): RequestState<T> = withContext(Dispatchers.IO) {
     return@withContext try {
         val response = call()
-        ApiState.Success(response)
+        RequestState.Success(response)
     } catch (ex: Throwable) {
-        ApiState.Error(ex.handleThrowable())
+        RequestState.Error(ex.handleThrowable())
     }
 }

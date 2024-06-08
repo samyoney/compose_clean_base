@@ -2,7 +2,7 @@ package com.example.framework.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.framework.network.ApiState
+import com.example.framework.network.RequestState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -12,11 +12,13 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-abstract class BaseViewModel<ViewState> : ViewModel() {
+abstract class BaseViewModel<ViewState, ViewEvent> : ViewModel() {
 
-    abstract fun initialState(): ViewState
+    protected abstract fun initialState(): ViewState
 
-    val uiState: MutableStateFlow<ViewState> by lazy {
+    abstract fun onTriggerEvent(eventType: ViewEvent)
+
+    open val uiState: MutableStateFlow<ViewState> by lazy {
         MutableStateFlow(initialState())
     }
 
@@ -45,7 +47,7 @@ abstract class BaseViewModel<ViewState> : ViewModel() {
     }
 
     protected suspend fun <T> executeRemoteUseCase(
-        callFlow: Flow<ApiState<T>>,
+        callFlow: Flow<RequestState<T>>,
         completionHandler: (collect: T) -> Unit = {}
     ) {
         callFlow
@@ -53,8 +55,8 @@ abstract class BaseViewModel<ViewState> : ViewModel() {
             .catch { handleError(requireNotNull(it.message)) }
             .collect { state ->
                 when (state) {
-                    is ApiState.Error -> handleError(requireNotNull(state.error.message))
-                    is ApiState.Success -> completionHandler.invoke(state.result)
+                    is RequestState.Error -> handleError(requireNotNull(state.error.message))
+                    is RequestState.Success -> completionHandler.invoke(state.result)
                 }
             }
     }

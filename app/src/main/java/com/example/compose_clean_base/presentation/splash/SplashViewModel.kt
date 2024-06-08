@@ -2,15 +2,14 @@ package com.example.compose_clean_base.presentation.splash
 
 import com.example.compose_clean_base.R
 import com.example.compose_clean_base.data.model.remote.response.CourseResponse
-import com.example.compose_clean_base.data.model.remote.response.StudentResponse
 import com.example.compose_clean_base.data.usecase.enroll.CheckDataInitializedUseCase
 import com.example.compose_clean_base.data.usecase.login.FetchAutoLoginUseCase
 import com.example.compose_clean_base.data.usecase.enroll.FetchCoursesUseCase
-import com.example.framework.base.BaseViewModel
 import com.example.compose_clean_base.data.usecase.login.CheckLoggedInUseCase
 import com.example.compose_clean_base.data.usecase.enroll.SaveCoursesUseCase
 import com.example.compose_clean_base.provider.mask.ResourceProvider
-import com.example.framework.base.StateObserver
+import com.example.framework.base.BaseLoadingViewModel
+import com.example.framework.base.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
@@ -23,11 +22,11 @@ class SplashViewModel @Inject constructor(
     private val saveCoursesUseCase: SaveCoursesUseCase,
     private val checkLoggedInUseCase: CheckLoggedInUseCase,
     private val checkDataInitializedUseCase: CheckDataInitializedUseCase,
-    private val resourceProvider: ResourceProvider) : BaseViewModel<SplashState>() {
+    private val resourceProvider: ResourceProvider) : BaseLoadingViewModel<SplashState, SplashEvent>() {
 
-    override fun initialState() = SplashState()
+    override fun initialLoadingState(): SplashState = SplashState()
 
-    fun onTriggerEvent(eventType: SplashEvent) {
+    override fun onTriggerEvent(eventType: SplashEvent) {
         when (eventType) {
             is SplashEvent.InitData -> {
                 onInitializedData()
@@ -61,24 +60,23 @@ class SplashViewModel @Inject constructor(
     }
 
     override fun handleError(errorText: String) {
-        uiState.update { it.copy(stateObserver = StateObserver.Error(errorText)) }
+        uiState.update { LoadingState.Error(errorText) }
     }
 
     private fun login() = safeLaunch {
         if (checkLoggedInUseCase()) {
-            onNextScreen()
-        } else {
             executeRemoteUseCase(fetchAutoLoginUseCase()) { res ->
                 if (res.status == 0) {
                     onNextScreen()                }
             }
+        } else {
+            onNextScreen()
         }
     }
 
     private fun onNextScreen() = safeLaunch {
         delay(2000)
-        uiState.update { it.copy(
-            stateObserver = StateObserver.Idle(SplashState.IdleObserver(isNextScreen = true))) }
+        uiState.updateLoaded { it.copy(isNextScreen = true) }
     }
 }
 

@@ -1,8 +1,8 @@
 package com.example.framework.network
 
-sealed class ApiState<out T> {
-    data class Success<out T>(val result: T) : ApiState<T>()
-    data class Error(val error: Throwable) : ApiState<Nothing>()
+sealed class RequestState<out T> {
+    data class Success<out T>(val result: T) : RequestState<T>()
+    data class Error(val error: Throwable) : RequestState<Nothing>()
 
     override fun toString(): String {
         return when (this) {

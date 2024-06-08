@@ -2,7 +2,7 @@ package com.example.compose_clean_base.data.usecase.login
 
 import com.example.compose_clean_base.data.model.remote.response.RegisterResponse
 import com.example.compose_clean_base.data.repository.AccountRepository
-import com.example.framework.network.ApiState
+import com.example.framework.network.RequestState
 import com.example.framework.network.safeFetchApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,7 @@ class FetchRegisterUseCase @Inject constructor(private val repository: AccountRe
         courseId: String,
         name: String,
         birth: String
-    ): Flow<ApiState<RegisterResponse>> = flow {
+    ): Flow<RequestState<RegisterResponse>> = flow {
         val result = safeFetchApi { repository.register(username, password, courseId, name, birth) }
         emit(result)
     }.flowOn(Dispatchers.IO)

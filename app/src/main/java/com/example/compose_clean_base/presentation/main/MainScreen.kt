@@ -18,7 +18,6 @@ import com.example.compose_clean_base.app.theme.BaseColor
 import com.example.compose_clean_base.app.theme.HeaderPinkColor
 import com.example.compose_clean_base.app.theme.AppTheme
 import com.example.compose_clean_base.presentation.NavGraphs
-import com.example.compose_clean_base.presentation.destinations.LoginScreenDestination
 import com.example.compose_clean_base.provider.AppNavigationProvider
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency

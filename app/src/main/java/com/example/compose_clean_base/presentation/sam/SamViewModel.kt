@@ -17,25 +17,28 @@ class SamViewModel @Inject constructor(
     private val getStudentsByCourseIdUseCase: GetStudentsByCourseIdUseCase,
     private val addStudentIntoCourseUseCase: AddStudentIntoCourseUseCase,
     private val removeStudentFromCourseUseCase: RemoveStudentFromCourseUseCase
-    ) :
-    BaseViewModel<SamState>() {
+) : BaseViewModel<SamState, SamEvent>() {
     override fun initialState() = SamState()
     private var currentCourseId = String()
 
-    fun onTriggerEvent(eventType: SamEvent) {
+    override fun onTriggerEvent(eventType: SamEvent) {
         when (eventType) {
             is SamEvent.InitData -> {
                 onInitData()
             }
+
             is SamEvent.Back -> {
                 onBack()
             }
+
             is SamEvent.RegisterStudent -> {
                 onRegisterStudent(eventType.id)
             }
+
             is SamEvent.RemoveStudent -> {
                 onRemoveStudent(eventType.id)
             }
+
             is SamEvent.SelectCourse -> {
                 onSelectCourse(eventType.id)
             }

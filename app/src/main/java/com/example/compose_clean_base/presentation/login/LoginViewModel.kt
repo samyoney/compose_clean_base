@@ -9,7 +9,7 @@ import com.example.compose_clean_base.data.usecase.login.FetchLoginUseCase
 import com.example.compose_clean_base.data.usecase.login.FetchRegisterUseCase
 import com.example.compose_clean_base.data.usecase.login.SaveAccountInfoUseCase
 import com.example.compose_clean_base.provider.mask.ResourceProvider
-import com.example.framework.base.StateObserver
+import com.example.framework.base.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import java.util.Locale
@@ -23,11 +23,11 @@ class LoginViewModel @Inject constructor(
     private val saveStudentsUseCase: SaveStudentsUseCase,
     private val saveAccountInfoUseCase: SaveAccountInfoUseCase,
     private val resourceProvider: ResourceProvider,
-) : BaseViewModel<LoginState>() {
+) : BaseViewModel<LoginState, LoginEvent>() {
 
     override fun initialState() = LoginState()
 
-    fun onTriggerEvent(eventType: LoginEvent) {
+    override fun onTriggerEvent(eventType: LoginEvent) {
         when (eventType) {
             is LoginEvent.InputUsername -> {
                 onInputUsername(eventType.text)
@@ -58,11 +58,11 @@ class LoginViewModel @Inject constructor(
 
     override fun startLoading() {
         super.startLoading()
-        uiState.update { it.copy(stateObserver = StateObserver.Loading) }
+        uiState.update { it.copy(loadingState = LoadingState.Loading) }
     }
 
     override fun handleError(errorText: String) {
-        uiState.update { it.copy(stateObserver = StateObserver.Error(errorText)) }
+        uiState.update { it.copy(loadingState = LoadingState.Error(errorText)) }
     }
 
     private fun onChangeMode() = safeLaunch {
@@ -71,7 +71,7 @@ class LoginViewModel @Inject constructor(
 
     private fun onLogin() = safeLaunch {
         if (!checkValidation(uiState.value.username, uiState.value.password)) {
-            uiState.update { it.copy(stateObserver = StateObserver.Error(resourceProvider.getString(R.string.validation_fail_text))) }
+            uiState.update { it.copy(loadingState = LoadingState.Error(resourceProvider.getString(R.string.validation_fail_text))) }
             return@safeLaunch
         }
         executeRemoteUseCase(
@@ -88,7 +88,7 @@ class LoginViewModel @Inject constructor(
 
     private fun onRegister() = safeLaunch {
         if (!checkValidation(uiState.value.username, uiState.value.password, uiState.value.birth)) {
-            uiState.update { it.copy(stateObserver = StateObserver.Error(resourceProvider.getString(R.string.validation_fail_text))) }
+            uiState.update { it.copy(loadingState = LoadingState.Error(resourceProvider.getString(R.string.validation_fail_text))) }
             return@safeLaunch
         }
         executeRemoteUseCase(
@@ -107,7 +107,7 @@ class LoginViewModel @Inject constructor(
             fetchStudentsData {res ->
                 saveStudents(res)
                 saveAccountInfo(username, password)
-                uiState.update { it.copy(stateObserver = StateObserver.Idle(LoginState.IdleObserver(isNextScreen = true))) }
+                uiState.update { it.copy(loadingState = LoadingState.Loaded()) }
             }
     }
 
@@ -159,7 +159,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun onIdle() = safeLaunch {
-        uiState.update { it.copy(stateObserver = StateObserver.Idle()) }
+        uiState.update { it.copy(loadingState = LoadingState.Idle) }
     }
 
     private fun checkValidation(username: String?, password: String?, birthDay: String? = null): Boolean {
