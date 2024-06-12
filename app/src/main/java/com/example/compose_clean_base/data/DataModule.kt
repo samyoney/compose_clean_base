@@ -1,6 +1,6 @@
 package com.example.compose_clean_base.data
 
-import com.example.framework.pref.CacheManager
+import com.example.framework.pref.SharePrefsManager
 import com.example.compose_clean_base.data.local.dao.CourseDao
 import com.example.compose_clean_base.data.local.dao.StudentDao
 import com.example.compose_clean_base.data.remote.service.LoginService
@@ -36,8 +36,8 @@ object DataModule {
     fun provideAccountRepository(
         loginService: LoginService,
         registerService: RegisterService,
-        cacheManager: CacheManager
-    ) = AccountRepository(loginService, registerService, cacheManager)
+        sharePrefsManager: SharePrefsManager
+    ) = AccountRepository(loginService, registerService, sharePrefsManager)
 
     @Provides
     fun provideStudentRepository(

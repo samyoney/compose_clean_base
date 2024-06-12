@@ -1,5 +1,9 @@
 package com.example.framework.pref
 
+
+
+
+
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -9,7 +13,7 @@ import com.example.framework.extension.getDefaultSharedPrefName
 import com.example.framework.extension.getPrefs
 import com.example.framework.extension.toJson
 
-class CacheManager(
+class SharePrefsManager(
     val context: Context,
     prefFileName: String? = null
 ) {

@@ -2,7 +2,7 @@ package com.example.compose_clean_base.data.local
 
 import android.content.Context
 import androidx.room.Room
-import com.example.framework.pref.CacheManager
+import com.example.framework.pref.SharePrefsManager
 import com.example.compose_clean_base.BuildConfig
 import com.example.compose_clean_base.data.local.dao.StudentDao
 import com.example.compose_clean_base.data.local.dao.CourseDao
@@ -37,10 +37,10 @@ object LocalModule {
     }
 
     @Provides
-    fun provideCacheManager(
+    fun provideSharePrefsManager(
         @ApplicationContext context: Context
-    ): CacheManager {
-        return CacheManager(context)
+    ): SharePrefsManager {
+        return SharePrefsManager(context)
     }
 
 
