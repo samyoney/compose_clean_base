@@ -50,7 +50,7 @@ class SplashViewModel @Inject constructor(
                 saveCourses(res)
                 login()
             } else {
-                handleError(resourceProvider.getString(R.string.error_api_message))
+                handleError(res.message)
             }
         }
     }
@@ -67,7 +67,10 @@ class SplashViewModel @Inject constructor(
         if (checkLoggedInUseCase()) {
             executeRemoteUseCase(fetchAutoLoginUseCase()) { res ->
                 if (res.status == 0) {
-                    onNextScreen()                }
+                    onNextScreen()
+                } else {
+                    handleError(res.message)
+                }
             }
         } else {
             onNextScreen()

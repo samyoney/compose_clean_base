@@ -81,7 +81,7 @@ class LoginViewModel @Inject constructor(
                 val info = uiState.value
                 handleAfterLogin(info.username, info.password)
             } else {
-                handleError(resourceProvider.getString(R.string.error_api_message))
+                handleError(res.message)
             }
         }
     }
@@ -98,7 +98,7 @@ class LoginViewModel @Inject constructor(
                 val info = uiState.value
                 handleAfterLogin(info.username, info.password)
             } else {
-                handleError(resourceProvider.getString(R.string.error_api_message))
+                handleError(res.message)
             }
         }
     }
@@ -116,7 +116,7 @@ class LoginViewModel @Inject constructor(
             if (res.status == 0) {
                 onFinish(res)
             } else {
-                handleError(resourceProvider.getString(R.string.error_api_message))
+                handleError(res.message)
             }
         }
     }
