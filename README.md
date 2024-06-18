@@ -1,15 +1,6 @@
-# Tên Dự Án
+# Jetpack Compose clean base
 
-## Bắt Đầu
-
-### Yêu Cầu
-
-### Cài Đặt
-```bash```
-
-# Hệ Thống Quản Lý Khóa Học
-
-Hệ thống giúp quản lý khóa học và học sinh đăng ký khóa học.
+### Detail（詳細）：　https://samyoney.github.io/blog/jetpack-compose-clean-base-blog
 
 ## License
 
