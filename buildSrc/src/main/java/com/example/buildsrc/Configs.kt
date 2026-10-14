@@ -42,13 +42,13 @@ object Configs {
         const val BaseUrl = "https://ibn2ef5etg.execute-api.ap-northeast-1.amazonaws.com/prd/"
         const val DbName = "DB_RELEASE"
         const val ApiKey = "ZSAEsqtDIYaWxVPYHh4av1m3sXRgrHRb9G5hU6Zj"
-        const val LicenseKey = "2rNBCbhAxtwXunYHpqJkM4v61mTRIfU3yoj7FgP0"
+        val LicenseKey = System.getenv("COMPOSE_BASE_LICENSE_KEY") ?: ""
     }
 
     object Debug {
         const val BaseUrl = "https://gtwnd2x4a7.execute-api.ap-northeast-1.amazonaws.com/dev/"
         const val DbName = "DB_DEBUG"
         const val ApiKey = "e4A6UfnYO4aKtrL5UiCRY1F0RSWFOhnz8jOTSTPB"
-        const val LicenseKey = "2rNBCbhAxtwXunYHpqJkM4v61mTRIfU3yoj7FgP0"
+        val LicenseKey = System.getenv("COMPOSE_BASE_LICENSE_KEY") ?: ""
     }
 }
