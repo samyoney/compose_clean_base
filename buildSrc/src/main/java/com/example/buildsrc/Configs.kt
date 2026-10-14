@@ -42,13 +42,13 @@ object Configs {
         const val BaseUrl = "https://us-central1-samyoney.cloudfunctions.net/api/"
         const val DbName = "DB_RELEASE"
         const val ApiKey = ""
-        const val LicenseKey = "2rNBCbhAxtwXunYHpqJkM4v61mTRIfU3yoj7FgP0"
+        val LicenseKey = System.getenv("COMPOSE_BASE_LICENSE_KEY") ?: ""
     }
 
     object Debug {
         const val BaseUrl = "https://us-central1-samyoney.cloudfunctions.net/api/"
         const val DbName = "DB_DEBUG"
         const val ApiKey = ""
-        const val LicenseKey = "2rNBCbhAxtwXunYHpqJkM4v61mTRIfU3yoj7FgP0"
+        val LicenseKey = System.getenv("COMPOSE_BASE_LICENSE_KEY") ?: ""
     }
 }
